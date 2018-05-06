@@ -145,19 +145,157 @@ app.service('cpu' ['opcodes', 'memory', function(opcodes, memory) {
             memTo = memory.load(++self.pc);
             number = memory.load(++self.pc);
             memory.store(memTo, number);
-            self.pc++
+            self.pc++;
             break;
-          case.opcodes.MOV_NUMBER_TO_REGADDRESS:
+          case opcodes.MOV_NUMBER_TO_REGADDRESS:
             regTo = memory.load(++self.pc);
             number = memory.load(++self.pc);
             memory.store(indirectRegisterAccess(regTo), number);
-            self.pc++
+            self.pc++;
             break;
-          case.opcodes.ADD_REG_TO_REG:
+          case opcodes.ADD_REG_TO_REG:
             regTo = checkSP(memory.load(++self.pc));
             regFrom = checkSP(memory.load(++self.pc));
-            setSP(regTo, checkOperation(getSP(regTO) + getSP(regFrom)));
-            self.pc++
+            setSP(regTo, checkOperation(getSP(regTo) + getSP(regFrom)));
+            self.pc++;
+            break;
+          case opcodes.ADD_REGADDRESS_TO_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            regFrom = memory.load(++self.pc);
+            setSP(regTo, checkOperation(getSP(regTo) + memory.load(indirectRegisterAccess(regFrom))));
+            self.pc++;
+            break;
+          case opcodes.ADD_ADDRESS_TO_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            memFrom = memory.load(++self.pc);
+            setSP(regTo, checkOperation(getSP(regTo) + memory.load(memFrom)));
+            self.pc++;
+            break;
+          case opcodes.ADD_NUMBER_TO_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            number = memory.load(++self.pc);
+            setSP(regTo, checkOperation(getSP(regTo) + number));
+            self.pc++;
+            break;
+          case opcodes.SUB_REG_FROM_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            regFrom = checkSP(memory.load(++self.pc));
+            setSP(regTo, checkOperation(getSP(regTo) - self.gpr[regFrom]));
+            self.pc++;
+            break;
+          case opcodes.SUB_NUMBER_FROM_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            number = memory.load(++self.pc);
+            setSP(regTo, checkOperation(getSP(regTo) - number));
+            self.pc++;
+            break;
+          case opcodes.SUB_ADDRESS_FROM_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            memFrom = memory.load(++self.pc);
+            setSP(regTo, checkOperation(getSP(regTo) - memory.load(memFrom)));
+            self.pc++;
+            break;
+          case opcodes.SUB_REGADDRESS_FROM_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            regFrom = memory.load(++self.pc);
+            setSP(regTo, checkOperation(getSP(regTo) - memory.load(indirectRegisterAccess(regFrom))));
+            self.pc++;
+            break;
+          case opcodes.CMP_REG_WITH_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            regFrom = checkSP(memory.load(++self.pc));
+            checkOperation(getSP(regTo) - getSP(regFrom));
+            self.pc++;
+            break;
+          case opcodes.CMP_NUMBER_WITH_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            number = memory.load(++self.pc);
+            checkOperation(getSP(regTo) - number));
+            self.pc++;
+            break;
+          case opcodes.CMP_ADDRESS_WITH_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            memFrom = memory.load(++self.pc);
+            checkOperation(getSP(regTo) - memory.load(memFrom));
+            self.pc++;
+            break;
+          case opcodes.CMP_REGADDRESS_WITH_REG:
+            regTo = checkSP(memory.load(++self.pc));
+            regFrom = memory.load(++self.pc);
+            checkOperation(getSP(regTo) - memory.load(indirectRegisterAccess(regFrom)));
+            self.pc++;
+            break;
+          case opcodes.BRANCH_ADDRESS:
+            regTo = checkSP(memory.load(++self.pc));
+            jump(self.gpr[regTo]);
+            break;
+          case opcodes.BRANCH_REGADDRESS:
+            regTo = memory.load(++self.pc);
+            jump(self.gpr[regTo]);
+            break;
+          case opcodes.BCS_ADDRESS:
+            regTo = checkSP(memory.load(++self.pc));
+            if(self.carry === true){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
+            break;
+          case opcodes.BCS_REGADDRESS:
+            regTo = memory.load(++self.pc);
+            if(self.carry === true){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
+            break;
+          case opcodes.BCC_ADDRESS:
+            regTo = checkSP(memory.load(++self.pc));
+            if(self.carry === false){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
+            break;
+          case opcodes.BCC_REGADDRESS:
+            regTo = memory.load(++self.pc);
+            if(self.carry === false){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
+            break;
+          case opcodes.BZS_ADDRESS:
+            regTo = checkSP(memory.load(++self.pc));
+            if(self.zero === true){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
+            break;
+          case opcodes.BZS_REGADDRESS:
+            regTo = memory.load(++self.pc);
+            if(self.zero === true){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
+            break;
+          case opcodes.BZC_ADDRESS:
+            regTo = checkSP(memory.load(++self.pc));
+            if(self.zero === false){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
+            break;
+          case opcodes.BZC_REGADDRESS:
+            regTo = memory.load(++self.pc);
+            if(self.zero === false){
+              jump(self.gpr[regTo]);
+            }else{
+              self.pc++;
+            }
             break;
         }
       }
