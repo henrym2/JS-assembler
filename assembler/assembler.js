@@ -3,12 +3,12 @@ app.service('assembler', ['opcodes', function(opcodes){
     assemble: function(input){
       //insane regex thing for separating a single instruction into 7 distinct groups
       //Graphical representation on httpsL//debuggex.com/
-      var regex = /^[\t ]*(?:([.A-Za-z]\w*)[:])?(?:[\t ]*([A-Za-z]{2,4})(?:[\t ]+(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*)(?:[\t ]*[,][\t ]*(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*))?)?)?/;
+        let regex = /^[\t ]*(?:([.A-Za-z]\w*)[:])?(?:[\t ]*([A-Za-z]{2,4})(?:[\t ]+(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*)(?:[\t ]*[,][\t ]*(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*))?)?)?/;
 
-      var op1_group = 3;
+        var op1_group = 3;
       var op2_group = 7;
-      var regexNum = /^[-+]?[0-9]+$/:
-      var regexLabel = /^[A-Za-z]\w*$/:
+      var regexNum = /^[-+]?[0-9]+$/;
+      var regexLabel = /^[A-Za-z]\w*$/;
 
       var code = [];
       var mapping = {};
@@ -60,4 +60,4 @@ app.service('assembler', ['opcodes', function(opcodes){
   }
 
 
-}])
+}]);

@@ -1,9 +1,9 @@
-app.service('memory', [fucntion () {
-  var memory = {
+app.service('memory', [function () {
+  let memory = {
     data: Array(256),
     lastAccess: -1,
     load: function (address) {
-      var self = this;
+      let self = this;
       if(address < 0 || address >= self.data.length){
         throw "Memory access violation at " + address;
       }
@@ -12,7 +12,7 @@ app.service('memory', [fucntion () {
     },
 
     store: function(address, value) {
-      var self = this;
+      let self = this;
       if(address < 0 || address >= self.data.length){
         throw "Memory access violation at " + address;
       }
@@ -22,10 +22,10 @@ app.service('memory', [fucntion () {
     },
 
     reset: function() {
-      var self = this;
+      let self = this;
 
       self.lastAccess = -1;
-      for(var i = 0; ; dataSize = self.data.length; i < dataSize; i++){
+      for(let i = 0; i < self.data.length; i++){
         self.data[i] = 0;
       }
     }

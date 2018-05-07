@@ -1,5 +1,5 @@
 app.service('opcodes', [function() {
-    var opcodes = {
+    let opcodes = {
         NONE: 0,
         MOV_REG_TO_REG: 1,
         MOV_ADDRESS_TO_REG: 2,
@@ -35,8 +35,8 @@ app.service('opcodes', [function() {
         BZC_ADDRESS: 39,
         BA_REGADDRESS: 40,
         BA_ADDRESS: 41,
-        BNA_REGADDRESS: 42,
-        BNA_ADDRESS: 43,
+        BNS_REGADDRESS: 42,
+        BNS_ADDRESS: 43,
         STORE_REG: 50,
         STORE_REGADDRESS: 51,
         STORE_ADDRESS: 52,
@@ -45,10 +45,10 @@ app.service('opcodes', [function() {
         CALL_REGADDRESS: 55,
         CALL_ADDRESS: 56,
         RET: 57,
-        MUL_REG: 60,
-        MUL_REGADDRESS: 61,
-        MUL_ADDRESS: 62,
-        MUL_NUMBER: 63,
+        MUL_REG_REG: 60,
+        MUL_REGADDRESS_REG: 61,
+        MUL_ADDRESS_REG: 62,
+        MUL_NUMBER_REG: 63,
         DIV_REG: 64,
         DIV_REGADDRESS: 65,
         DIV_ADDRESS: 66,
